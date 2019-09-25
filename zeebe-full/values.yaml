@@ -1,18 +1,2 @@
 global:
-  zeebe: "{{ .Release.Name }}-zeebe-cluster-k8s-helm"
-zeebe-cluster-k8s-helm: 
-  kibana: 
-    healthCheckPath: "/logs/app/kibana"
-    ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/ingress.class: nginx
-      path: /logs
-      hosts:
-        - ""
-    extraEnvs:
-      - name: SERVER_BASEPATH
-        value: /logs
-      - name: SERVER_REWRITEBASEPATH
-        value: "true"
-
+  zeebe: "{{ .Release.Name }}-zeebe-cluster"

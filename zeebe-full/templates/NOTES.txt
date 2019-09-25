@@ -6,11 +6,8 @@
 
 ({{ .Chart.Name }} - {{ .Chart.Version }})
 
-- Docker Image used for Broker: {{ .Values.zeebe-cluster.image.repository }}:{{ .Values.zeebe-cluster.image.tag }}
-- Docker Image used for Operate: {{ .Values.zeebe-operate.image.repository }}:{{ .Values.zeebe-operate.image.tag }}
 - Cluster Name: {{ .Values.global.zeebe }}
-- ElasticSearch Enabled: {{ .Values.zeebe-cluster.elasticsearch.enabled }} - URL: http://{{ .Values.global.elasticsearch.host }}:{{ .Values.global.elasticsearch.port }}
-- Kibana Enabled: {{ .Values.zeebe-cluster.kibana.enabled }}
+
 
 
 
