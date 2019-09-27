@@ -1,13 +1,12 @@
 dependencies:
-- name: zeebe-cluster
-  version: 0.0.2
+- alias: zeebe
+  name: zeebe-cluster
   repository: http://jenkins-x-chartmuseum:8080
-  alias: zeebe
-- name: zeebe-operate
+  version: 0.0.9
+- alias: operate
+  name: zeebe-operate
+  repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.3
-  repository: http://jenkins-x-chartmuseum:8080
-  alias: operate
 - name: nginx-ingress
-  version: 1.19.0
   repository: https://kubernetes-charts.storage.googleapis.com
-  
+  version: 1.19.0
