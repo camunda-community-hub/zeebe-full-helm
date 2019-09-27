@@ -1,2 +1,2 @@
 global:
-  zeebe: "{{ .Release.Name }}-zeebe-cluster"
+  zeebe: "{{ .Release.Name }}-zeebe"
