@@ -5,3 +5,9 @@ dependencies:
   url: https://github.com/zeebe-io/zeebe-cluster-helm
   version: 0.0.9
   versionURL: https://github.com/zeebe-io/zeebe-cluster-helm/releases/tag/v0.0.9
+- host: github.com
+  owner: zeebe-io
+  repo: zeebe-operate-helm
+  url: https://github.com/zeebe-io/zeebe-operate-helm
+  version: 0.0.8
+  versionURL: https://github.com/zeebe-io/zeebe-operate-helm/releases/tag/v0.0.8
