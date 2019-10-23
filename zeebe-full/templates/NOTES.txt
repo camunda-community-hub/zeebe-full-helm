@@ -6,7 +6,9 @@
 
 ({{ .Chart.Name }} - {{ .Chart.Version }})
 
-- Cluster Name: {{ .Values.global.zeebe }}
+- Cluster Name: {{ tpl .Values.global.zeebe . }}
+- Zeebe Version: {{ template "zeebe-cluster.version" . }}
+
 
 
 

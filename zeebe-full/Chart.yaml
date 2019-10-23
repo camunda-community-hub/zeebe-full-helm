@@ -3,3 +3,4 @@ appVersion: "1.0"
 description: A Zeebe Cluster + Operate Helm Chart for Kubernetes
 name: zeebe-full
 version: 0.1.0
+icon: https://zeebe.io/img/zeebe-logo.png
