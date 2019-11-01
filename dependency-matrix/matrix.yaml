@@ -3,8 +3,8 @@ dependencies:
   owner: zeebe-io
   repo: zeebe-cluster-helm
   url: https://github.com/zeebe-io/zeebe-cluster-helm
-  version: 0.0.21
-  versionURL: https://github.com/zeebe-io/zeebe-cluster-helm/releases/tag/v0.0.21
+  version: 0.0.22
+  versionURL: https://github.com/zeebe-io/zeebe-cluster-helm/releases/tag/v0.0.22
 - host: github.com
   owner: zeebe-io
   repo: zeebe-operate-helm
