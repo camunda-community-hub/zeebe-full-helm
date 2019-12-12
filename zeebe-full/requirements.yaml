@@ -9,4 +9,4 @@ dependencies:
   version: 0.0.13
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
-  version: 1.19.0
+  version: 1.26.2
