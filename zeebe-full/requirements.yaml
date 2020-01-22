@@ -2,7 +2,7 @@ dependencies:
 - alias: zeebe
   name: zeebe-cluster
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.57
+  version: 0.0.61
 - alias: operate
   name: zeebe-operate
   repository: http://jenkins-x-chartmuseum:8080
