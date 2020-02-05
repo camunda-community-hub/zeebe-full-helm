@@ -2,5 +2,5 @@
 
 Dependency | Sources | Version | Mismatched versions
 ---------- | ------- | ------- | -------------------
-[zeebe-io/zeebe-cluster-helm](https://github.com/zeebe-io/zeebe-cluster-helm) |  | [0.0.67](https://github.com/zeebe-io/zeebe-cluster-helm/releases/tag/v0.0.67) | 
+[zeebe-io/zeebe-cluster-helm](https://github.com/zeebe-io/zeebe-cluster-helm) |  | [0.0.68](https://github.com/zeebe-io/zeebe-cluster-helm/releases/tag/v0.0.68) | 
 [zeebe-io/zeebe-operate-helm](https://github.com/zeebe-io/zeebe-operate-helm) |  | [0.0.17](https://github.com/zeebe-io/zeebe-operate-helm/releases/tag/v0.0.17) | 
