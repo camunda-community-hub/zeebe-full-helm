@@ -6,7 +6,7 @@ dependencies:
 - alias: operate
   name: zeebe-operate
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.19
+  version: 0.0.20
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 1.26.2
