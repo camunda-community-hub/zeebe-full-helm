@@ -1,2 +1,2 @@
 global:
-  zeebe: "{{ .Release.Name }}-zeebe"
+  zeebe: "{{ .Release.Name }}-zeebe-gateway"
