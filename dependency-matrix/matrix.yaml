@@ -9,5 +9,5 @@ dependencies:
   owner: zeebe-io
   repo: zeebe-operate-helm
   url: https://github.com/zeebe-io/zeebe-operate-helm
-  version: 0.0.18
-  versionURL: https://github.com/zeebe-io/zeebe-operate-helm/releases/tag/v0.0.18
+  version: 0.0.19
+  versionURL: https://github.com/zeebe-io/zeebe-operate-helm/releases/tag/v0.0.19
