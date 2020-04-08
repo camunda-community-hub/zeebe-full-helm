@@ -1,6 +1,6 @@
 # Zeebe + Operate + Ingress Controller HELM Chart
 
-This charts install:
+These charts install:
 - A Zeebe Cluster
 - Operate configured to talk with the Zeebe Cluster
 - Ingress Controller which
