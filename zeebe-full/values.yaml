@@ -1,2 +1,5 @@
 global:
   zeebe: "{{ .Release.Name }}-zeebe"
+
+tasklist:
+  enabled: false
