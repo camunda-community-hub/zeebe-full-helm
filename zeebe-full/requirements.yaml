@@ -10,7 +10,7 @@ dependencies:
 - alias: zeeqs
   name: zeebe-zeeqs
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.4
+  version: 0.0.10
   condition: "zeeqs.enabled"  
 - alias: tasklist
   name: zeebe-tasklist
