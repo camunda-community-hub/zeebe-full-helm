@@ -8,7 +8,7 @@ dependencies:
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.24
 - alias: zeeqs
-  name: zeebe-zeeqs
+  name: zeeqs
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.10
   condition: "zeeqs.enabled"  
