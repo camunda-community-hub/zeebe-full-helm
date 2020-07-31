@@ -15,5 +15,11 @@ dependencies:
   owner: zeebe-io
   repo: zeebe-tasklist-helm
   url: https://github.com/zeebe-io/zeebe-tasklist-helm
-  version: 0.0.5
-  versionURL: https://github.com/zeebe-io/zeebe-tasklist-helm/releases/tag/v0.0.5
+  version: 0.0.4
+  versionURL: https://github.com/zeebe-io/zeebe-tasklist-helm/releases/tag/v0.0.4
+- host: github.com
+  owner: zeebe-io
+  repo: zeebe-zeeqs-helm
+  url: https://github.com/zeebe-io/zeebe-zeeqs-helm
+  version: 0.0.13
+  versionURL: https://github.com/zeebe-io/zeebe-zeeqs-helm/releases/tag/v0.0.13
