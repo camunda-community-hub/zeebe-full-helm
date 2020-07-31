@@ -1,0 +1,1417 @@
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mcredential-initializer[0m
+{"level":"info","ts":1596197181.047322,"caller":"creds-init/main.go:44","msg":"Credentials initialized."}
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mworking-dir-initializer[0m
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mplace-tools[0m
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-git-source-zeebe-io-zeebe-full-helm-master-gjbwr-lkz4w[0m
+{"level":"info","ts":1596197199.8345487,"caller":"git/git.go:105","msg":"Successfully cloned https://github.com/zeebe-io/zeebe-full-helm.git @ v0.0.95 in path /workspace/source"}
+{"level":"warn","ts":1596197199.8348658,"caller":"git/git.go:152","msg":"Unexpected error: creating symlink: symlink /tekton/home/.ssh /root/.ssh: file exists"}
+{"level":"info","ts":1596197199.9688463,"caller":"git/git.go:133","msg":"Successfully initialized and updated submodules in path /workspace/source"}
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-builder-home[0m
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-git-merge[0m
+Using SHAs from PULL_REFS=master:6ccbb9c13989048ea363a8790fa21188574eacd1
+WARNING: no SHAs to merge, falling back to initial cloned commit
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-setup-jx-git-credentials[0m
+Generated Git credentials file /tekton/home/git/credentials
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-build-basic-auth-username[0m
+/tekton/home/basic-auth-user.json
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-build-basic-auth-password[0m
+/tekton/home/basic-auth-pass.json
+
+Showing logs for build [32mzeebe-io-zeebe-full-helm-master-gjbwr-18[0m stage [32mfrom-build-pack[0m and container [32mstep-build-release[0m
+rm -rf zeebe-full/charts
+rm -rf zeebe-full/zeebe-full*.tgz
+rm -rf zeebe-full/requirements.lock
+helm init --client-only
+Creating /tekton/home/.helm 
+Creating /tekton/home/.helm/repository 
+Creating /tekton/home/.helm/repository/cache 
+Creating /tekton/home/.helm/repository/local 
+Creating /tekton/home/.helm/plugins 
+Creating /tekton/home/.helm/starters 
+Creating /tekton/home/.helm/cache/archive 
+Creating /tekton/home/.helm/repository/repositories.yaml 
+Adding stable repo with URL: https://kubernetes-charts.storage.googleapis.com 
+Adding local repo with URL: http://127.0.0.1:8879/charts 
+$HELM_HOME has been configured at /tekton/home/.helm.
+Not installing Tiller due to 'client-only' flag having been set
+Happy Helming!
+helm repo add jenkins-x http://chartmuseum.jenkins-x.io
+"jenkins-x" has been added to your repositories
+helm repo add elastic http://helm.elastic.co
+"elastic" has been added to your repositories
+helm repo add releases http://jenkins-x-chartmuseum:8080
+"releases" has been added to your repositories
+helm dependency build zeebe-full
+Hang tight while we grab the latest from your chart repositories...
+...Unable to get an update from the "local" chart repository (http://127.0.0.1:8879/charts):
+	Get http://127.0.0.1:8879/charts/index.yaml: dial tcp 127.0.0.1:8879: connect: connection refused
+...Successfully got an update from the "releases" chart repository
+...Successfully got an update from the "elastic" chart repository
+...Successfully got an update from the "stable" chart repository
+...Successfully got an update from the "jenkins-x" chart repository
+Update Complete. ⎈Happy Helming!⎈
+Saving 5 charts
+Downloading zeebe-cluster from repo http://jenkins-x-chartmuseum:8080
+Downloading zeebe-operate from repo http://jenkins-x-chartmuseum:8080
+Downloading zeeqs from repo http://jenkins-x-chartmuseum:8080
+Downloading zeebe-tasklist from repo http://jenkins-x-chartmuseum:8080
+Downloading nginx-ingress from repo https://kubernetes-charts.storage.googleapis.com
+Deleting outdated charts
+helm lint zeebe-full
+==> Linting zeebe-full
+Lint OK
+
+1 chart(s) linted, no failures
+helm template zeebe-full
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/poddisruptionbudget.yaml
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: "elasticsearch-master-pdb"
+spec:
+  maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: "elasticsearch-master"
+
+---
+# Source: zeebe-full/charts/operate/templates/configmap.yaml
+kind: ConfigMap
+metadata:
+  name: release-name-operate
+apiVersion: v1
+data:
+  application.yml: |
+    # Operate configuration file
+    camunda.operate:
+      # ELS instance to store Operate data
+      elasticsearch:
+        # Cluster name
+        clusterName: elasticsearch
+        # Host
+        host: elasticsearch-master
+        # Transport port
+        port: 9200
+      # Zeebe instance
+      zeebe:
+        # Broker contact point
+        brokerContactPoint: release-name-zeebe-gateway:26500
+      # ELS instance to export Zeebe data to
+      zeebeElasticsearch:
+        # Cluster name
+        clusterName: elasticsearch
+        # Host
+        host: elasticsearch-master
+        # Transport port
+        port: 9200
+        # Index prefix, configured in Zeebe Elasticsearch exporter
+        prefix: zeebe-record
+    logging:
+      level:
+        ROOT: INFO
+        org.camunda.operate: DEBUG
+      
+    #Spring Boot Actuator endpoints to be exposed
+    management.endpoints.web.exposure.include: health,info,conditions,configprops,prometheus
+
+---
+# Source: zeebe-full/charts/zeebe/templates/configmap.yaml
+kind: ConfigMap
+metadata:
+  name: release-name-zeebe
+  labels:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+apiVersion: v1
+data:
+  startup.sh: |
+    #!/usr/bin/env bash
+    set -eux -o pipefail
+
+    export ZEEBE_BROKER_NETWORK_ADVERTISEDHOST=${ZEEBE_BROKER_NETWORK_ADVERTISEDHOST:-$(hostname -f)}
+    export ZEEBE_BROKER_CLUSTER_NODEID=${ZEEBE_BROKER_CLUSTER_NODEID:-${K8S_POD_NAME##*-}}
+
+    # As the number of replicas or the DNS is not obtainable from the downward API yet,
+    # defined them here based on conventions
+    export ZEEBE_BROKER_CLUSTER_CLUSTERSIZE=${ZEEBE_BROKER_CLUSTER_CLUSTERSIZE:-1}
+    contactPointPrefix=${K8S_POD_NAME%-*}
+    contactPoints=${ZEEBE_BROKER_CLUSTER_INITIALCONTACTPOINTS:-""}
+    if [[ -z "${contactPoints}" ]]; then
+      for ((i=0; i<${ZEEBE_BROKER_CLUSTER_CLUSTERSIZE}; i++))
+      do
+        contactPoints="${contactPoints},${contactPointPrefix}-$i.$(hostname -d):26502"
+      done
+
+      export ZEEBE_BROKER_CLUSTER_INITIALCONTACTPOINTS="${contactPoints}"
+    fi
+    
+    if [ "$(ls -A /exporters/)" ]; then
+      mkdir /usr/local/zeebe/exporters/
+      cp -a /exporters/*.jar /usr/local/zeebe/exporters/
+    else  
+      echo "No exporters available."
+    fi
+
+    exec /usr/local/zeebe/bin/broker
+
+  application.yaml: |
+
+  broker-log4j2.xml: |
+
+  gateway-log4j2.xml: |
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-serviceaccount.yaml
+
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress-backend
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/clusterrole.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - endpoints
+      - nodes
+      - pods
+      - secrets
+    verbs:
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - nodes
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - extensions
+      - "networking.k8s.io" # k8s 1.14+
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+  - apiGroups:
+      - extensions
+      - "networking.k8s.io" # k8s 1.14+
+    resources:
+      - ingresses/status
+    verbs:
+      - update
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/clusterrolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: release-name-nginx-ingress
+subjects:
+  - kind: ServiceAccount
+    name: release-name-nginx-ingress
+    namespace: **
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - namespaces
+    verbs:
+      - get
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+      - pods
+      - secrets
+      - endpoints
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - ""
+    resources:
+      - services
+    verbs:
+      - get
+      - list
+      - update
+      - watch
+  - apiGroups:
+      - extensions
+      - "networking.k8s.io" # k8s 1.14+
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+      - "networking.k8s.io" # k8s 1.14+
+    resources:
+      - ingresses/status
+    verbs:
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    resourceNames:
+      - ingress-controller-leader-nginx
+    verbs:
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - configmaps
+    verbs:
+      - create
+  - apiGroups:
+      - ""
+    resources:
+      - endpoints
+    verbs:
+      - create
+      - get
+      - update
+  - apiGroups:
+      - ""
+    resources:
+      - events
+    verbs:
+      - create
+      - patch
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: release-name-nginx-ingress
+subjects:
+  - kind: ServiceAccount
+    name: release-name-nginx-ingress
+    namespace: **
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    component: "controller"
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress-controller
+spec:
+  
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: https
+  selector:
+    app: nginx-ingress
+    component: "controller"
+    release: release-name
+  type: "LoadBalancer"
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-service.yaml
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    component: "default-backend"
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress-default-backend
+spec:
+  
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: http
+  selector:
+    app: nginx-ingress
+    component: "default-backend"
+    release: release-name
+  type: "ClusterIP"
+
+---
+# Source: zeebe-full/charts/operate/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: release-name-operate
+  labels:
+    app: release-name-operate
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    name: http
+    targetPort: 8080
+    protocol: TCP
+  selector:
+    app: release-name-operate
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/service.yaml
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch-master
+  labels:
+    heritage: "Tiller"
+    release: "release-name"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  annotations:
+    {}
+    
+spec:
+  type: ClusterIP
+  selector:
+    heritage: "Tiller"
+    release: "release-name"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  ports:
+  - name: http
+    protocol: TCP
+    port: 9200
+  - name: transport
+    protocol: TCP
+    port: 9300
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: elasticsearch-master-headless
+  labels:
+    heritage: "Tiller"
+    release: "release-name"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  annotations:
+    service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
+spec:
+  clusterIP: None # This is needed for statefulset hostnames like elasticsearch-0 to resolve
+  # Create endpoints also if the related pod isn't ready
+  publishNotReadyAddresses: true
+  selector:
+    app: "elasticsearch-master"
+  ports:
+  - name: http
+    port: 9200
+  - name: transport
+    port: 9300
+
+---
+# Source: zeebe-full/charts/zeebe/templates/gateway-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "release-name-zeebe-gateway"
+  labels:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/component: gateway
+  annotations:
+    null
+    
+spec:
+  selector:
+      app.kubernetes.io/name: zeebe
+      app.kubernetes.io/instance: release-name
+      helm.sh/chart: zeebe-0.0.128
+      app.kubernetes.io/version: "0.23.4"
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/component: gateway
+  ports:
+    - port: 9600
+      protocol: TCP
+      name: http
+    - port: 26500
+      protocol: TCP
+      name: gateway
+---
+# Source: zeebe-full/charts/zeebe/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: "release-name-zeebe"
+  labels:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/component: broker
+    app: zeebe
+    
+  annotations:
+    null
+        
+spec:
+  clusterIP: None
+  publishNotReadyAddresses: true
+  type: ClusterIP
+  ports:
+    - port: 9600
+      protocol: TCP
+      name: http  
+    - port: 26502
+      protocol: TCP
+      name: internal
+    - port: 26501
+      protocol: TCP
+      name: command
+  selector:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/component: broker
+
+---
+# Source: zeebe-full/charts/operate/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-operate-test-connection"
+  labels:
+    app.kubernetes.io/name: operate
+    helm.sh/chart: operate-0.0.24
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Tiller
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['release-name-operate:80']
+  restartPolicy: Never
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/test/test-elasticsearch-health.yaml
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-ewibu-test"
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+  - name: "release-name-ujzvw-test"
+    image: "docker.elastic.co/elasticsearch/elasticsearch:6.8.5"
+    command:
+      - "sh"
+      - "-c"
+      - |
+        #!/usr/bin/env bash -e
+        curl -XGET --fail 'elasticsearch-master:9200/_cluster/health?wait_for_status=green&timeout=1s'
+  restartPolicy: Never
+
+---
+# Source: zeebe-full/charts/zeebe/templates/tests/test-connection.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "release-name-zeebe-test-connection"
+  labels:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: wget
+      image: busybox
+      command: ['wget']
+      args:  ['release-name-zeebe:9600']
+  restartPolicy: Never
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    component: "controller"
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress-controller
+spec:
+  selector:
+    matchLabels:
+      app: nginx-ingress
+      release: release-name
+  replicas: 1
+  revisionHistoryLimit: 10
+  strategy:
+    {}
+    
+  minReadySeconds: 0
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+        component: "controller"
+        release: release-name
+    spec:
+      dnsPolicy: ClusterFirst
+      containers:
+        - name: nginx-ingress-controller
+          image: "quay.io/kubernetes-ingress-controller/nginx-ingress-controller:0.26.1"
+          imagePullPolicy: "IfNotPresent"
+          args:
+            - /nginx-ingress-controller
+            - --default-backend-service=**/release-name-nginx-ingress-default-backend
+            - --election-id=ingress-controller-leader
+            - --ingress-class=nginx
+            - --configmap=**/release-name-nginx-ingress-controller
+          securityContext:
+            capabilities:
+                drop:
+                - ALL
+                add:
+                - NET_BIND_SERVICE
+            runAsUser: 33
+            allowPrivilegeEscalation: true
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+            - name: https
+              containerPort: 443
+              protocol: TCP
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 10254
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+          resources:
+            {}
+            
+      hostNetwork: false
+      serviceAccountName: release-name-nginx-ingress
+      terminationGracePeriodSeconds: 60
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-deployment.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-ingress
+    chart: nginx-ingress-1.26.2
+    component: "default-backend"
+    heritage: Tiller
+    release: release-name
+  name: release-name-nginx-ingress-default-backend
+spec:
+  selector:
+    matchLabels:
+      app: nginx-ingress
+      release: release-name
+  replicas: 1
+  revisionHistoryLimit: 10
+  template:
+    metadata:
+      labels:
+        app: nginx-ingress
+        component: "default-backend"
+        release: release-name
+    spec:
+      containers:
+        - name: nginx-ingress-default-backend
+          image: "k8s.gcr.io/defaultbackend-amd64:1.5"
+          imagePullPolicy: "IfNotPresent"
+          args:
+          securityContext:
+            runAsUser: 65534
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 6
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          resources:
+            {}
+            
+      serviceAccountName: release-name-nginx-ingress-backend
+      terminationGracePeriodSeconds: 60
+
+---
+# Source: zeebe-full/charts/operate/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: release-name-operate
+  labels:
+    app: release-name-operate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: release-name-operate
+  template:
+    metadata:
+      labels:
+        app: release-name-operate
+    spec:
+      containers:
+      - name: operate
+        image: "camunda/operate:0.23.0"
+        resources:
+          requests:
+            cpu: 500m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 768Mi
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        volumeMounts:
+        - name: config
+          mountPath: /usr/local/operate/config/application.yml
+          subPath: application.yml
+      volumes:
+      - name: config
+        configMap:
+          name: release-name-operate
+          defaultMode: 0744
+      securityContext:
+        null
+        
+
+---
+# Source: zeebe-full/charts/zeebe/templates/gateway-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "release-name-zeebe-gateway"
+  labels:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/component: gateway
+  annotations:
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zeebe
+      app.kubernetes.io/instance: release-name
+      helm.sh/chart: zeebe-0.0.128
+      app.kubernetes.io/version: "0.23.4"
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/component: gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zeebe
+        app.kubernetes.io/instance: release-name
+        helm.sh/chart: zeebe-0.0.128
+        app.kubernetes.io/version: "0.23.4"
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/component: gateway
+      annotations:
+    spec:
+      containers:
+        - name: zeebe
+          image: "camunda/zeebe:0.23.4"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 9600
+              name: http
+            - containerPort: 26500
+              name: gateway
+            - containerPort: 26502
+              name: internal
+          env:
+            - name: ZEEBE_STANDALONE_GATEWAY
+              value: "true"
+            - name: ZEEBE_GATEWAY_CLUSTER_CLUSTERNAME
+              value: release-name-zeebe
+            - name: ZEEBE_GATEWAY_CLUSTER_MEMBERID
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: ZEEBE_LOG_LEVEL
+              value: "info"
+            - name: JAVA_TOOL_OPTIONS
+              value: "-XX:MaxRAMPercentage=25.0 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/zeebe/data -XX:ErrorFile=/usr/local/zeebe/data/zeebe_error%p.log -XX:+ExitOnOutOfMemoryError"
+            - name: ZEEBE_GATEWAY_CLUSTER_CONTACTPOINT
+              value: release-name-zeebe:26502
+            - name: ZEEBE_GATEWAY_NETWORK_HOST
+              value: 0.0.0.0
+            - name: ZEEBE_GATEWAY_NETWORK_PORT
+              value: "26500"
+            - name: ZEEBE_GATEWAY_CLUSTER_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: ZEEBE_GATEWAY_CLUSTER_PORT
+              value: "26502"
+            - name: ZEEBE_GATEWAY_MONITORING_HOST
+              value: 0.0.0.0
+            - name: ZEEBE_GATEWAY_MONITORING_PORT
+              value: "9600"
+          volumeMounts:
+          securityContext:
+            null
+          readinessProbe:
+            tcpSocket:
+              port: gateway
+            initialDelaySeconds: 20
+            periodSeconds: 5
+      volumes:
+        - name: config
+          configMap:
+            name: release-name-zeebe
+            defaultMode: 0744
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/statefulset.yaml
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: elasticsearch-master
+  labels:
+    heritage: "Tiller"
+    release: "release-name"
+    chart: "elasticsearch"
+    app: "elasticsearch-master"
+  annotations:
+    esMajorVersion: "6"
+spec:
+  serviceName: elasticsearch-master-headless
+  selector:
+    matchLabels:
+      app: "elasticsearch-master"
+  replicas: 3
+  podManagementPolicy: Parallel
+  updateStrategy:
+    type: RollingUpdate
+  volumeClaimTemplates:
+  - metadata:
+      name: elasticsearch-master
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 30Gi
+      
+  template:
+    metadata:
+      name: "elasticsearch-master"
+      labels:
+        heritage: "Tiller"
+        release: "release-name"
+        chart: "elasticsearch"
+        app: "elasticsearch-master"
+        app: "elasticsearch-master"
+      annotations:
+        
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: app
+                operator: In
+                values:
+                - "elasticsearch-master"
+            topologyKey: kubernetes.io/hostname
+      terminationGracePeriodSeconds: 120
+      volumes:
+      initContainers:
+      - name: configure-sysctl
+        securityContext:
+          runAsUser: 0
+          privileged: true
+        image: "docker.elastic.co/elasticsearch/elasticsearch:6.8.5"
+        imagePullPolicy: "IfNotPresent"
+        command: ["sysctl", "-w", "vm.max_map_count=262144"]
+        resources:
+          {}
+          
+
+      containers:
+      - name: "elasticsearch"
+        securityContext:
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 1000
+          
+        image: "docker.elastic.co/elasticsearch/elasticsearch:6.8.5"
+        imagePullPolicy: "IfNotPresent"
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 3
+          timeoutSeconds: 5
+          
+          exec:
+            command:
+              - sh
+              - -c
+              - |
+                #!/usr/bin/env bash -e
+                # If the node is starting up wait for the cluster to be ready (request params: 'wait_for_status=green&timeout=1s' )
+                # Once it has started only check that the node itself is responding
+                START_FILE=/tmp/.es_start_file
+
+                http () {
+                    local path="${1}"
+                    if [ -n "${ELASTIC_USERNAME}" ] && [ -n "${ELASTIC_PASSWORD}" ]; then
+                      BASIC_AUTH="-u ${ELASTIC_USERNAME}:${ELASTIC_PASSWORD}"
+                    else
+                      BASIC_AUTH=''
+                    fi
+                    curl -XGET -s -k --fail ${BASIC_AUTH} http://127.0.0.1:9200${path}
+                }
+
+                if [ -f "${START_FILE}" ]; then
+                    echo 'Elasticsearch is already running, lets check the node is healthy and there are master nodes available'
+                    http "/_cluster/health?timeout=0s"
+                else
+                    echo 'Waiting for elasticsearch cluster to become cluster to be ready (request params: "wait_for_status=green&timeout=1s" )'
+                    if http "/_cluster/health?wait_for_status=green&timeout=1s" ; then
+                        touch ${START_FILE}
+                        exit 0
+                    else
+                        echo 'Cluster is not yet ready (request params: "wait_for_status=green&timeout=1s" )'
+                        exit 1
+                    fi
+                fi
+        ports:
+        - name: http
+          containerPort: 9200
+        - name: transport
+          containerPort: 9300
+        resources:
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+          requests:
+            cpu: 100m
+            memory: 2Gi
+          
+        env:
+          - name: node.name
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: discovery.zen.minimum_master_nodes
+            value: "2"
+          - name: discovery.zen.ping.unicast.hosts
+            value: "elasticsearch-master-headless"
+          - name: cluster.name
+            value: "elasticsearch"
+          - name: network.host
+            value: "0.0.0.0"
+          - name: ES_JAVA_OPTS
+            value: "-Xmx1g -Xms1g"
+          - name: node.data
+            value: "true"
+          - name: node.ingest
+            value: "true"
+          - name: node.master
+            value: "true"
+        volumeMounts:
+          - name: "elasticsearch-master"
+            mountPath: /usr/share/elasticsearch/data
+
+
+---
+# Source: zeebe-full/charts/zeebe/templates/statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: "release-name-zeebe"
+  labels:
+    app.kubernetes.io/name: zeebe
+    app.kubernetes.io/instance: release-name
+    helm.sh/chart: zeebe-0.0.128
+    app.kubernetes.io/version: "0.23.4"
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/component: broker
+    app: zeebe
+    
+  annotations:   
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zeebe
+      app.kubernetes.io/instance: release-name
+      helm.sh/chart: zeebe-0.0.128
+      app.kubernetes.io/version: "0.23.4"
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/component: broker
+  serviceName: "release-name-zeebe"
+  updateStrategy:
+    type: RollingUpdate
+  podManagementPolicy: Parallel
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zeebe
+        app.kubernetes.io/instance: release-name
+        helm.sh/chart: zeebe-0.0.128
+        app.kubernetes.io/version: "0.23.4"
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/component: broker
+      annotations:   
+    spec:
+      initContainers:    
+      containers:
+      - name: zeebe
+        image: "camunda/zeebe:0.23.4"
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ZEEBE_BROKER_CLUSTER_CLUSTERNAME
+          value: release-name-zeebe
+        - name: ZEEBE_LOG_LEVEL
+          value: "<nil>"
+        - name: ZEEBE_BROKER_CLUSTER_PARTITIONSCOUNT
+          value: "3"
+        - name: ZEEBE_BROKER_CLUSTER_CLUSTERSIZE
+          value: "3"
+        - name: ZEEBE_BROKER_CLUSTER_REPLICATIONFACTOR
+          value: "3"
+        - name: ZEEBE_BROKER_THREADS_CPUTHREADCOUNT
+          value: "2"
+        - name: ZEEBE_BROKER_THREADS_IOTHREADCOUNT
+          value: "2"
+        - name: ZEEBE_BROKER_GATEWAY_ENABLE
+          value: "false"
+        - name: ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_CLASSNAME
+          value: "io.zeebe.exporter.ElasticsearchExporter"
+        - name: ZEEBE_BROKER_EXPORTERS_ELASTICSEARCH_ARGS_URL
+          value: "http://elasticsearch-master:9200"
+        - name: ZEEBE_BROKER_NETWORK_COMMANDAPI_PORT
+          value: "26501"
+        - name: ZEEBE_BROKER_NETWORK_INTERNALAPI_PORT
+          value: "26502"
+        - name: ZEEBE_BROKER_NETWORK_MONITORINGAPI_PORT
+          value: "9600"         
+        - name: K8S_POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name              
+        - name: JAVA_TOOL_OPTIONS
+          value: "-XX:MaxRAMPercentage=25.0 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/usr/local/zeebe/data -XX:ErrorFile=/usr/local/zeebe/data/zeebe_error%p.log -XX:+ExitOnOutOfMemoryError"
+        ports:
+        - containerPort: 9600
+          name: http
+        - containerPort: 26501
+          name: command
+        - containerPort: 26502
+          name: internal
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 9600
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 1
+        resources:
+            limits:
+              cpu: 1000m
+              memory: 4Gi
+            requests:
+              cpu: 500m
+              memory: 2Gi
+            
+        volumeMounts:
+        - name: config
+          mountPath: /usr/local/zeebe/config/application.yaml
+          subPath: application.yaml
+        - name: config
+          mountPath: /usr/local/bin/startup.sh
+          subPath: startup.sh
+        - name: data
+          mountPath: /usr/local/zeebe/data
+        - name: exporters
+          mountPath: /exporters
+        securityContext:
+          null
+      volumes:
+      - name: config
+        configMap:
+          name: release-name-zeebe
+          defaultMode: 0744
+      - name: exporters
+        emptyDir: {}
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: [ReadWriteOnce]
+      storageClassName: 
+      resources:
+        requests:
+          storage: "10Gi"
+---
+# Source: zeebe-full/charts/operate/templates/ingress.yaml
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: release-name-operate
+  labels: 
+    app.kubernetes.io/name: operate
+    helm.sh/chart: operate-0.0.24
+    app.kubernetes.io/instance: release-name
+    app.kubernetes.io/version: "1.0"
+    app.kubernetes.io/managed-by: Tiller
+  annotations: 
+    ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    
+spec:
+  rules:
+    - host: 
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: release-name-operate
+              servicePort: 80
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/addheaders-configmap.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/clusterrole.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/clusterrolebinding.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/job-createSecret.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/job-patchWebhook.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/psp.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/role.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/rolebinding.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/job-patch/serviceaccount.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/admission-webhooks/validating-webhook.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-configmap.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-daemonset.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-hpa.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-metrics-service.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-poddisruptionbudget.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-prometheusrules.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-psp.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-servicemonitor.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/controller-webhook-service.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-poddisruptionbudget.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-psp.yaml
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-role.yaml
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/default-backend-rolebinding.yaml
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/proxyheaders-configmap.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/tcp-configmap.yaml
+
+
+---
+# Source: zeebe-full/charts/nginx-ingress/templates/udp-configmap.yaml
+
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/configmap.yaml
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/ingress.yaml
+
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/podsecuritypolicy.yaml
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/role.yaml
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/rolebinding.yaml
+
+---
+# Source: zeebe-full/charts/zeebe/charts/elasticsearch/templates/serviceaccount.yaml
+
+---
+# Source: zeebe-full/charts/zeebe/templates/gateway-poddisruptionbudget.yaml
+
+
+---
+# Source: zeebe-full/charts/zeebe/templates/poddisruptionbudget.yaml
+
+
+---
+# Source: zeebe-full/charts/zeebe/templates/service-monitor.yaml
+
+sed -i -e "s/version:.*/version: 0.0.95/" zeebe-full/Chart.yaml
+helm package zeebe-full
+Successfully packaged chart and saved it to: /workspace/source/zeebe-full-0.0.95.tgz
+curl --fail -u *****:*********** --data-binary "@zeebe-full-0.0.95.tgz" http://jenkins-x-chartmuseum:8080/api/charts
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100  310k  100    14  100  310k     81  1816k --:--:-- --:--:-- --:--:-- 1825k
+{"saved":true}rm -rf zeebe-full*.tgz
+** step changelog  --verbose --version 0.0.95 --rev 6ccbb9c13989048ea363a8790fa21188574eacd1
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git rev-parse --is-shallow-repository
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git fetch --unshallow
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git fetch --tags
+Converted /workspace/source to an unshallow repository
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git for-each-ref --sort=-creatordate --format=%(objectname)%00%(refname:short) --count=2 refs/tags
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git rev-list -n 1 81ca0cfe8bc6d102c0dd351ed25dcc97450f2092
+DEBUG: Using helmBinary helm with feature flag: template-mode
+Generating change log from git ref c12c039929b2fab345d7e57021e385e9fda3ebe3 => 6ccbb9c13989048ea363a8790fa21188574eacd1
+WARNING: failed to find git commits between revision c12c039929b2fab345d7e57021e385e9fda3ebe3 and 6ccbb9c13989048ea363a8790fa21188574eacd1 due to: can't produce a diff between c12c039929b2fab345d7e57021e385e9fda3ebe3 and 6ccbb9c13989048ea363a8790fa21188574eacd1, check your range is correct by running "git log c12c039929b2fab345d7e57021e385e9fda3ebe3..6ccbb9c13989048ea363a8790fa21188574eacd1" command
+DEBUG: Generated release notes:
+
+
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git tag --list 0.0.95
+DEBUG: LC_ALL=C JX_LOG_LEVEL=error git tag --list v0.0.95
+WARNING: No release found for zeebe-io/zeebe-full-helm and tag v0.0.95 so creating a new release
+Updated the release information at https://github.com/zeebe-io/zeebe-full-helm/releases/tag/v0.0.95
+Uploaded /workspace/source/dependency-matrix/matrix.yaml to release asset https://github.com/zeebe-io/zeebe-full-helm/releases/download/v0.0.95/dependency-matrix.yaml
+generated: /workspace/source/zeebe-full/templates/release.yaml
+Created Release zeebe-full-helm-0-0-95 resource in namespace **
+Updating PipelineActivity zeebe-io-zeebe-full-helm-master-18 with version 0.0.95
+Updated PipelineActivities zeebe-io-zeebe-full-helm-master-18 with release notes URL: https://github.com/zeebe-io/zeebe-full-helm/releases/tag/v0.0.95
