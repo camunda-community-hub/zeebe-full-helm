@@ -11,12 +11,12 @@ dependencies:
   condition: zeeqs.enabled
   name: zeeqs
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.11
+  version: 0.0.13
 - alias: tasklist
   condition: tasklist.enabled
   name: zeebe-tasklist
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.4
+  version: 0.0.5
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 1.26.2
