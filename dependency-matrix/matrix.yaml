@@ -3,23 +3,23 @@ dependencies:
   owner: zeebe-io
   repo: zeebe-cluster-helm
   url: https://github.com/zeebe-io/zeebe-cluster-helm
-  version: 0.0.141
+  version: 0.0.142
   versionURL: ""
 - host: github.com
   owner: zeebe-io
   repo: zeebe-operate-helm
   url: https://github.com/zeebe-io/zeebe-operate-helm
-  version: 0.0.27
-  versionURL: https://github.com/zeebe-io/zeebe-operate-helm/releases/tag/v0.0.27
+  version: 0.0.28
+  versionURL: https://github.com/zeebe-io/zeebe-operate-helm/releases/tag/v0.0.28
 - host: github.com
   owner: zeebe-io
   repo: zeebe-tasklist-helm
   url: https://github.com/zeebe-io/zeebe-tasklist-helm
-  version: 0.0.4
-  versionURL: https://github.com/zeebe-io/zeebe-tasklist-helm/releases/tag/v0.0.4
+  version: 0.0.6
+  versionURL: https://github.com/zeebe-io/zeebe-tasklist-helm/releases/tag/v0.0.6
 - host: github.com
   owner: zeebe-io
   repo: zeebe-zeeqs-helm
   url: https://github.com/zeebe-io/zeebe-zeeqs-helm
-  version: 0.0.13
-  versionURL: https://github.com/zeebe-io/zeebe-zeeqs-helm/releases/tag/v0.0.13
+  version: 0.0.14
+  versionURL: https://github.com/zeebe-io/zeebe-zeeqs-helm/releases/tag/v0.0.14
