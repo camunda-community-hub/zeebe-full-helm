@@ -8,7 +8,7 @@ icon: https://zeebe.io/img/zeebe-logo.png
 dependencies:
 - name: zeebe-cluster-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.205
+  version: 0.0.206
 - name: zeebe-operate-helm
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.38
