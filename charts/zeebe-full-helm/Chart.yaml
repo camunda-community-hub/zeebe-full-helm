@@ -8,18 +8,18 @@ icon: https://zeebe.io/img/zeebe-logo.png
 dependencies:
 - name: zeebe-cluster-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.202
+  version: 0.0.204
 - name: zeebe-operate-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.36
+  version: 0.0.37
 - condition: zeeqs.enabled
   name: zeebe-zeeqs-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.19
+  version: 0.0.21
 - condition: tasklist.enabled
   name: zeebe-tasklist-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.8
+  version: 0.0.9
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 1.26.2
