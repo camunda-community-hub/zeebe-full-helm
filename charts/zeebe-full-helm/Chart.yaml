@@ -13,13 +13,13 @@ dependencies:
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.35
 - condition: zeeqs.enabled
-  name: zeeqs
+  name: zeebe-zeeqs-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.14
+  version: 0.0.18
 - condition: tasklist.enabled
-  name: zeebe-tasklist
+  name: zeebe-tasklist-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.6
+  version: 0.0.7
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 1.26.2
