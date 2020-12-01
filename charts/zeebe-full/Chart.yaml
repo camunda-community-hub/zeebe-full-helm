@@ -6,12 +6,12 @@ version: 0.1.0-SNAPSHOT
 type: application
 icon: https://zeebe.io/img/zeebe-logo.png
 dependencies:
-- name: zeebe-cluster
+- name: zeebe-cluster-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.154
-- name: zeebe-operate
+  version: 0.0.200
+- name: zeebe-operate-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.28
+  version: 0.0.35
 - condition: zeeqs.enabled
   name: zeeqs
   repository: http://jenkins-x-chartmuseum:8080
