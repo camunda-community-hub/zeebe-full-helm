@@ -23,3 +23,6 @@ dependencies:
 - name: nginx-ingress
   repository: https://kubernetes-charts.storage.googleapis.com
   version: 1.26.2
+- name: jenkins-x-crds
+  repository: "https://storage.googleapis.com/jenkinsxio/charts"
+  version: 3.0.5  
