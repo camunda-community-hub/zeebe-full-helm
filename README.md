@@ -1,4 +1,4 @@
-# Zeebe + Operate + Ingress Controller HELM Chart
+# Zeebe + Operate + TaskList and ZeeQS Ingress Controller HELM Chart
  
 These charts install:
 - A Zeebe Cluster
