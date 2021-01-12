@@ -20,6 +20,6 @@ dependencies:
   name: zeebe-tasklist-helm
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.10
-- name: nginx-ingress
-  repository: https://kubernetes-charts.storage.googleapis.com
-  version: 1.26.2
+- name: ingress-nginx
+  repository: https://kubernetes.github.io/ingress-nginx
+  version: 3.19.0
