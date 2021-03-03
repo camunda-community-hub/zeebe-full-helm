@@ -11,7 +11,7 @@ dependencies:
   version: 0.0.211
 - name: zeebe-operate-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.40
+  version: 0.0.42
 - condition: zeeqs.enabled
   name: zeebe-zeeqs-helm
   repository: http://jenkins-x-chartmuseum:8080
