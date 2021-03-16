@@ -1,5 +1,5 @@
 apiVersion: v2
-appVersion: "1.0"
+appVersion: "0.26.1"
 description: Zeebe Cluster + Operate Helm Chart for Kubernetes
 name: zeebe-full-helm
 version: 0.1.0-SNAPSHOT
@@ -8,7 +8,7 @@ icon: https://zeebe.io/img/zeebe-logo.png
 dependencies:
 - name: zeebe-cluster-helm
   repository: http://jenkins-x-chartmuseum:8080
-  version: 0.0.213
+  version: 0.0.214
 - name: zeebe-operate-helm
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.43
