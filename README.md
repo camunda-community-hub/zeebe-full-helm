@@ -1,5 +1,8 @@
 # Zeebe + Operate + TaskList and ZeeQS Ingress Controller HELM Chart
  
+ 
+This chart is hosted at: [http://helm.camunda.io](http://helm.camunda.io)
+ 
 These charts install:
 - A Zeebe Cluster
 - Operate configured to talk with the Zeebe Cluster
