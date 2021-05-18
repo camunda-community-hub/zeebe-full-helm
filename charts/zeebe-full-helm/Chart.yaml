@@ -20,6 +20,10 @@ dependencies:
   name: zeebe-tasklist-helm
   repository: http://jenkins-x-chartmuseum:8080
   version: 0.0.16
+- condition: cloudevents.enabled
+  name: zeebe-cloud-events-router
+  repository: http://jenkins-x-chartmuseum:8080
+  version: 0.0.51  
 - name: ingress-nginx
   repository: https://kubernetes.github.io/ingress-nginx
   version: 3.19.0

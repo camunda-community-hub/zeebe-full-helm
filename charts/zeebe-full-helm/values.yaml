@@ -1,6 +1,8 @@
 global:
   zeebe: "{{ .Release.Name }}-zeebe"
 
+cloudevents:
+  enabled: false
 tasklist:
   enabled: false
 zeeqs:
